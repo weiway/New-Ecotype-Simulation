@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 105
+neldermead.mod
+build
+bin
+docs
+working
+parameters.mod
+options.xml
+nelder_mead.mod
+methods.mod
+bldanny.mod
+
+END

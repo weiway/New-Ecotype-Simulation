@@ -1,0 +1,16 @@
+2        numcrit
+1
+2
+  0.99500000               1
+   1.0000000               2
+0.57326,10000.0      omega
+2.20996,10000.0       sigma
+1,2         npop
+1.0E25,1.0E26       drift
+0,0,1,0      xnumincs
+2       nu
+505        nrep (number of replicate runs per quartet  of parameter values)
+88004781           iii (random number seed)
+1500      lengthseq (after deleting gaps, etc.)
+4  jwhichxavg (which criterion)  (#4 = 1.25x criterion)
+0.03953147877013177     probthresh

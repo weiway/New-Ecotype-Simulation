@@ -1,0 +1,29 @@
+10                   numcrit
+1                   
+2                   
+2                   
+2                   
+2                   
+2                   
+2                   
+2                   
+2                   
+2                   
+0.800000             1                   
+0.850000             2                   
+0.900000             2                   
+0.950000             2                   
+0.960000             2                   
+0.970000             2                   
+0.980000             2                   
+0.990000             2                   
+0.995000             2                   
+1.000000             2                   
+NaN                  omega
+3105277789190902.00000 sigma
+64                   npop
+121                  nu
+1000                 nrep
+76178091             iii (random number seed)
+5                    lengthseq (after deleting gaps, etc.)
+3                    whichavg

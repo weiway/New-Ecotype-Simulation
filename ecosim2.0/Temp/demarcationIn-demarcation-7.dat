@@ -1,0 +1,31 @@
+10                   numcrit
+9                   
+16                  
+16                  
+16                  
+16                  
+16                  
+16                  
+16                  
+16                  
+16                  
+0.800000             9                   
+0.850000             16                  
+0.900000             16                  
+0.950000             16                  
+0.960000             16                  
+0.970000             16                  
+0.980000             16                  
+0.990000             16                  
+0.995000             16                  
+1.000000             16                  
+NaN                  omega
+3105277789190902.00000 sigma
+46                   npop
+3                    step
+415                  nu
+1000                 nrep
+83646579             iii (random number seed)
+5                    lengthseq (after deleting gaps, etc.)
+3                    whichavg
+-0.00000             likelihoodsolution
