@@ -1,11 +1,1 @@
-NewEcoSim 2.12
-Based on ecosim 1.99.3
-
-This is the first working version of new ecosim.
-
-Known bugs:
-Hillclimbing "NaN" bug
-
-demarcationsCI.app infinite loop?
-
-
+1.99.3
