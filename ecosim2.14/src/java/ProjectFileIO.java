@@ -112,6 +112,7 @@ public class ProjectFileIO {
             BufferedWriter out = new BufferedWriter(
                 new FileWriter(projectFile)
             );
+			
 			/*
             // Output the XML header.
             out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -129,9 +130,12 @@ public class ProjectFileIO {
                 "  <pcrerror value=\"" + 
                 masterVariables.getPCRError() + "\"/>\n"
             );
+				*/
             // Output the phylogeny data.
             if (phylogeny != null && phylogeny.hasRun()) {
-                out.write(String.format(
+				out.write("Ecotype Simulation Result\n");
+                /*
+				out.write(String.format(
                     "  <phylogeny size=\"%d\" length=\"%d\">\n",
                     phylogeny.getNu(), phylogeny.length()
                 ));
@@ -148,12 +152,15 @@ public class ProjectFileIO {
                     ));
                 }
                 out.write(
-                    "  </phylogeny>\n"
+                    "  </phylogeny>\n"		
                 );
+					*/
+				out.write(String.format("  %d sequences loaded.\n" + "  %s is the outgroup.\n\n", phylogeny.getNu(), phylogeny.getOutgroupIdentifier()));		
             }
             // Output the binning data.
             if (binning != null && binning.hasRun()) {
                 ArrayList<BinLevel> bins = binning.getBinLevels();
+				/*
                 out.write("  <binning>\n");
                 out.write("    <bins size=\"" + bins.size() + "\">\n");
                 // Output the crit levels and the number of bins.
@@ -166,9 +173,16 @@ public class ProjectFileIO {
                 }
                 out.write("    </bins>\n");
                 out.write("  </binning>\n");
+				*/
+				out.write("The result from binning:\n");
+		        for (int i = 0; i < bins.size(); i ++) {
+		            out.write("  " + bins.get(i).toString() + "\n");
+		        }
+		        out.write("\n");
             }
             // Output the bruteforce data.
             if (bruteforce != null && bruteforce.hasRun()) {
+				/*
                 ArrayList<ParameterSet<Likelihood>> results =
                     bruteforce.getResults();
                 double [] omegaRange = bruteforce.getOmegaRange();
@@ -205,10 +219,15 @@ public class ProjectFileIO {
                 }
                 out.write("    </results>\n");
                 out.write("  </bruteforce>\n");
+				*/
+			    ParameterSet bestBruteforceResult = bruteforce.getBestResult();
+			    out.write("The best result from bruteforce:\n");
+			    out.write(bestBruteforceResult.toString() + "\n\n");
             }
             // Output the hillclimb data.
             if (hillclimb != null && hillclimb.hasRun()) {
                 ParameterSet result = hillclimb.getResult();
+			    /*
                 out.write("  <hillclimb>\n");
                 out.write(String.format(
                     "    <result omega=\"%.5f\" sigma=\"%.5f\" " +
@@ -219,7 +238,12 @@ public class ProjectFileIO {
                     result.getValue()
                 ));
                 out.write("  </hillclimb>\n");
+				*/
+			    out.write("The result from hillclimb:\n");
+			    out.write(result.toString() + "\n\n");
             }
+
+					/*		
             // Output the OmegaCI data.
             if (omegaCI != null && omegaCI.hasRun()) {
                 double[] result = omegaCI.getResult();
@@ -275,12 +299,18 @@ public class ProjectFileIO {
 			
             // Output the Demarcation data.
             if (demarcation != null && demarcation.hasRun()) {
+				/*
                 ArrayList<ArrayList<String>> ecotypes = demarcation.getEcotypes();
                 out.write(String.format(
                     "ecotypes size=\"%d\"",
                     ecotypes.size()
                 ));
+				System.out.println(ecotypes);
+				*/
+			    out.write("The result from demarcation:\n");
+			    out.write(demarcation.toString() + "\n\n");
                 out.close();
+					
 			}
         }
         catch (IOException e) {
