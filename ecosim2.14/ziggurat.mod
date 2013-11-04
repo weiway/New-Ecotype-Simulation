@@ -1,4 +1,4 @@
-GFORTRAN module version '6' created from src/fortran/ziggurat.f90 on Thu Oct  3 21:46:33 2013
+GFORTRAN module version '6' created from src/fortran/ziggurat.f90 on Sun Nov  3 13:27:48 2013
 MD5:c7786d7ba94498c666a24745dd2a2db2 -- If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () () () () ()

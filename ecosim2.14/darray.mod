@@ -1,4 +1,4 @@
-GFORTRAN module version '6' created from src/fortran/darray.f90 on Thu Oct  3 21:46:33 2013
+GFORTRAN module version '6' created from src/fortran/darray.f90 on Sun Nov  3 13:27:47 2013
 MD5:a784f5db28fe9d0c1b7cf2a341d3fd10 -- If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () () () () ()
