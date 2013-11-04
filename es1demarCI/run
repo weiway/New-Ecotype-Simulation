@@ -1,0 +1,4 @@
+build:
+	./demarcationsCI.app e1.dat out.dat
+	#rm -f out.dat
+	#Done!
