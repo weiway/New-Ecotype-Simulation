@@ -1,9 +1,9 @@
 import time
 import os
 
-def runecosim(runid,version,path_to_fasta,path_to_tree):
+def runecosim(runid,dupes,version,path_to_fasta,path_to_tree):
     path='ecosim'+version
-    outname='out_'+version+'_'+str(runid)
+    outname='out_'+version+'_'+str(dupes)+"_"+str(runid)
     os.chdir(path)
     cwd=os.getcwd()
 
@@ -28,7 +28,7 @@ for i in stuff:
     t2l=[]
     while n<21:
         print 'running round '+str(n)
-        t2=runecosim(n,'2.14','../sequences/'+i[0],'../sequences/'+i[1])
+        t2=runecosim(n,ite,'2.14','../sequences/'+i[0],'../sequences/'+i[1])
         t2l.append(t2)
         n+=1
 
