@@ -16,13 +16,10 @@ def runecosim(runid,dupes,version,path_to_fasta,path_to_tree):
     print str(runid),"took",str(end-start),"seconds" 
     return end-start
 
-stuff = [('cleaned_1.fas ','cleaned_tree_1.txt '),
-        ('cleaned_2.fas ','cleaned_tree_2.txt '),
-        ('cleaned_3.fas ','cleaned_tree_3.txt '),
-        ('cleaned_4.fas ','cleaned_tree_4.txt '),
-        ('cleaned_5.fas ','cleaned_tree_5.txt ')]
+stuff = [('AP_Edited.fas ','APtree_Edited.nwk ')]
 
-ite = 1
+# ite = 1
+ite = "no_removals"
 for i in stuff:
     n=1
     t2l=[]
@@ -42,7 +39,7 @@ for i in stuff:
 
     print 
     print '2.14 avg time: ' + str(avg2) + ' secs'
-    ite+=1 
+    # ite+=1 
 
 
 
