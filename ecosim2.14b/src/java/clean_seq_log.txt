@@ -1,0 +1,16 @@
+Date: Fri May 02 22:21:55 EDT 2014
+
+Number of irregular base replacements: 0
+
+Cutoff percentage: 0.1
+
+Strins analyzed: [Out, S11c8, 96x4, S4B5, N14B4, N9B22, S7B4, N9B11, M7C7, N12A18]
+
+Number of column removals: 719
+
+Number of strains in Newick Tree: 10
+
+Number of gap replacements: 6
+
+Number of strains in fasta file: 10
+

@@ -1,0 +1,6 @@
+Date: Thu May 01 18:49:33 EDT 2014
+
+Error: Could not find all required settings in 'seq_clean_settings.txt' in /Users/shalisap/Desktop/Cohan-Krizanc Lab/New-Ecotype-Simulation/ecosim2.14b/src/java
+
+-- NEED: newick file, fasta file, cutoff, new fasta file name, new log name. Each should be entered on a new line in the specified order.
+
