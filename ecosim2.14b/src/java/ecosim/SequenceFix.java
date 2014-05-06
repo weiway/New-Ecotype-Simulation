@@ -8,16 +8,31 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class SequenceFix{ 
+public class SequenceFix{ //implements Runnable{
+
+// /**
+//   *  Object to interact with the sequence fix program
+//   *
+//   *  @param masterVariables The MasterVariables object.
+//   */
+// public SequenceFix(MasterVariables masterVariables) {
+//     this(masterVariables, "");
+// }
+// /**
+//   *  Run Sequence Fix.
+//   */
+//   public void run(){
+
+//   //}
 
   public static void main(String[] args) throws IOException, InvalidNewickException{
-    
+
     String newick_file;
     String fasta_file;
     double cutoff;
     String fasta_out;
     String log_name;
-      
+
     // importing settings from a text file called 'seq_clean_settings.txt'
     List<String> settings = import_settings();
     if(settings.size() == 5){
@@ -46,8 +61,8 @@ public class SequenceFix{
       HashMap<String,String> fasta_map = fasta.getSequenceHash();
       @SuppressWarnings("unchecked")
       HashMap<String,String> fasta_map_copy = (HashMap<String,String>)fasta_map.clone();
-      
-      HashMap<HashMap<String,String>,HashMap<String,String>> map_log = 
+
+      HashMap<HashMap<String,String>,HashMap<String,String>> map_log =
         replacer(newick_file,fasta_map_copy,cutoff);
       Iterator it = map_log.entrySet().iterator();
       while (it.hasNext()){
@@ -59,7 +74,7 @@ public class SequenceFix{
         System.out.println(new_fasta_map);
         update_fasta(fasta,new_fasta_map);
         fasta.save(fasta_out);
-        
+
         logs.put("Number of strains in fasta file",Integer.toString(new_fasta_map.size()));
         logging(logs,log_name);
       }
@@ -67,10 +82,10 @@ public class SequenceFix{
       //update_fasta(fasta,new_fasta_map);
       //fasta.save(fasta_out);
   }
-  
+
   /**
    * Returns the NewickTreeNode with the specified taxon label in the given tree.
-   * 
+   *
    * @param strain Name of strain being searched for.
    * @param tree Newick formatted tree to search down.
    * @return NewickTreeNode containing the wanted strain from the Newick formatted tree.
@@ -87,10 +102,10 @@ public class SequenceFix{
     }
         return nodeFound;
   }
-  
+
   /**
    * Returns the descendants of the given NewickTreeNode. Includes non-leaf nodes.
-   * 
+   *
    * @param node NewickTreeNode whose descendants are wanted.
    * @return List<NewickTreeNode> containing descendants of the given node.
    */
@@ -105,15 +120,15 @@ public class SequenceFix{
     }
     return descendants;
   }
-    
+
   /**
    * Returns the sister of the NewickTreeNode given.
-   * 
+   *
    * @param primary_node NewickTreeNode to find the sister of.
    * @return NewickTreeNode containing the sister of the node given.
    */
    private static NewickTreeNode sister_nodes(NewickTreeNode primary_node){
-      NewickTreeNode sister_found = new NewickTreeNode(); 
+      NewickTreeNode sister_found = new NewickTreeNode();
       NewickTreeNode parent_node = primary_node.getParent();
       List<NewickTreeNode> children = allDescendants(parent_node);
       for (int i = 0; i < children.size(); i++){
@@ -125,10 +140,10 @@ public class SequenceFix{
       }
       return sister_found;
     }
-  
+
   /**
    * Returns a sorted list of [[name,distance],[name2,distance2]] based on distance.
-   * 
+   *
    * @param node NewickTreeNode containing the beginning node to search?
    * @param dist int containing the distance from the original node.
    * @param lst List<List<String>> containing [[name,distance]]
@@ -137,7 +152,7 @@ public class SequenceFix{
   private static List<List<String>> down_search(NewickTreeNode node, int dist, List<List<String>> lst){
       if(node.isLeafNode()){
         List<String> pair = new ArrayList<String>();
-        pair.add(node.getName());  
+        pair.add(node.getName());
         pair.add(String.valueOf(dist));
         // removed from list?
         lst.add(pair);
@@ -148,12 +163,12 @@ public class SequenceFix{
         dist = dist + 1;
         List<List<String>> down = new ArrayList<List<String>>();
         List<NewickTreeNode> children = allDescendants(node);
-        
+
         for (int i = 0; i < children.size(); i++){
           NewickTreeNode child = children.get(i);
           down_search(child,dist,lst);
         }
-        
+
         // may or may not have to flatten
         // Sorting
         Collections.sort(lst, new Comparator<List<String>> () {
@@ -164,14 +179,14 @@ public class SequenceFix{
         return lst;
       }
   }
-  
+
   /**
-   * Returns a sorted list of [[name,distance],[name2,distance2]] based on distance, 
+   * Returns a sorted list of [[name,distance],[name2,distance2]] based on distance,
    * indicating the closest relatives.
-   * 
+   *
    * @param tree Newick formatted tree to search.
    * @param strain Name of the strain's relatives to find.
-   * @return List<List<String>> containing [[name,distance]] in order of closest relatives. 
+   * @return List<List<String>> containing [[name,distance]] in order of closest relatives.
    */
   private static List<List<String>> closest_relative(NewickTree tree, String strain){
       NewickTreeNode primary_node = find_node_with_taxon_label(strain, tree);
@@ -189,17 +204,17 @@ public class SequenceFix{
         return null;
       }
     }
-  
+
   /** Returns the next closest relatives of the given strain
    *  for cases where there are no acceptable closest relatives
    *  returned by closest_relative, i.e. the sister node and its
    *  children. This function goes up to the parent of the
    *  parent of the given strain and then searches down for
    *  relatives.
-   *  
+   *
    *  @param strain_node NewickTreeNode of data wanted.
-   *  @return HashMap<NewickTreeNode,List<List<String>>> containing 
-   *          the parent's parent of the node and the 
+   *  @return HashMap<NewickTreeNode,List<List<String>>> containing
+   *          the parent's parent of the node and the
    *          List of [relatives,distance].
    */
   private static HashMap<NewickTreeNode,List<List<String>>> get_parents_parent_relatives(NewickTreeNode strain_node){
@@ -209,25 +224,25 @@ public class SequenceFix{
     rel.put(parent2, down_search(parent2,0,lst));
     return rel;
   }
-  
+
   /** Imports settings from file. Expects a newick file, a fasta file,
    *  a name for the new fasta file, and a name for the log file
    *  THE SETTINGS FILE MUST BE CALLED 'seq_clean_settings.txt' and must be in
    *  the current directory! If not found, will write to log file that it can't find
    *  settings in CWD.
-   *  
+   *
    *  @return List<String> containing the 5 settings from the file.
    */
     private static List<String> import_settings(){
-      
+
       BufferedReader br = null;
       List<String> settings = new ArrayList<String>();
-      
+
       try{
         String sCurrentLine;
-        
+
         br = new BufferedReader(new FileReader("seq_clean_settings.txt"));
-        
+
         while ((sCurrentLine = br.readLine()) != null){
           settings.add(sCurrentLine);
         }
@@ -236,7 +251,7 @@ public class SequenceFix{
         return null;
       }
     }
-    
+
     // logging method. may or may not need when added to ecosim
     private static void logging(HashMap<String,String> logs, String log_name){
       Date date = new Date();
@@ -253,7 +268,7 @@ public class SequenceFix{
         if (!file.exists()){
           file.createNewFile();
         }
-        
+
         FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(string);
@@ -263,13 +278,13 @@ public class SequenceFix{
             e.printStackTrace();
         }
       }
-      
+
   /** Calculates the percentage of strains that also have a gap
    *  at the same index.
-   *  
+   *
    *  @param fasta_map HashMap<String,String> containing the strain:sequence.
    *  @param index int index being looked at.
-   *  @return percentage of strains that have a gap at the same index. 
+   *  @return percentage of strains that have a gap at the same index.
    */
   private static double percent_gap(HashMap<String,String> fasta_map, int index){
     int num_strains = fasta_map.size();
@@ -287,15 +302,15 @@ public class SequenceFix{
     }
     return (double) gaps/num_strains;
   }
-  
+
   /** Removes the nucleotide at the given index for all sequences.
-   *  
+   *
    *  @param fasta_map HashMap<String,String> containing the strain:sequence.
    *  @param index int index being looked at.
-   *  @return HashMap<String,String> containing the strain:new sequence with removed 
+   *  @return HashMap<String,String> containing the strain:new sequence with removed
    *          nucleotide.
    */
-  private static HashMap<String,String> remove_column(HashMap<String,String> fasta_map, 
+  private static HashMap<String,String> remove_column(HashMap<String,String> fasta_map,
                                                       int index){
     HashMap<String,String> new_fasta_map = new HashMap<String,String>();
     Iterator it = fasta_map.entrySet().iterator();
@@ -319,24 +334,24 @@ public class SequenceFix{
     }
     return new_fasta_map;
   }
-  
+
   /** Chooses the sequence that is most related to the given strain.
-   *  
+   *
    *  @param strain_fasta_map HashMap<String,String> containing the strain:sequence.
    *  @param strain_node NewickTreeNode containing the strain being looked at.
    *  @param rels List<List<List<String>>> containing the closest relatives of strain_node.
    *  @param index index being looked at.
-   *  @param level int representing number of upward requests requested to go further up the tree. 
+   *  @param level int representing number of upward requests requested to go further up the tree.
    *  @return HashMap<String,List<List<List<String>>>> of sequence chosen:other closest relatives
    */
   @SuppressWarnings("unchecked")
-  private static HashMap<String,List<List<List<String>>>> weighted_seq_choose(HashMap<String,String> strain_fasta_map, 
-                                     NewickTreeNode strain_node, 
-                                     List<List<List<String>>> rels, 
+  private static HashMap<String,List<List<List<String>>>> weighted_seq_choose(HashMap<String,String> strain_fasta_map,
+                                     NewickTreeNode strain_node,
+                                     List<List<List<String>>> rels,
                                      int index, int level){
     HashMap<String,Integer> nucs = new HashMap<String,Integer>();
     String[] nuc_list =  new String[] {"A","T","C","G","a","t","c","g"};
-    List<List<String>> rel_level = rels.get(level); 
+    List<List<String>> rel_level = rels.get(level);
     for(List<String> r : rel_level){
       try{
         String nucleotide = Character.toString((strain_fasta_map.get(r.get(0))).charAt(index));
@@ -366,16 +381,16 @@ public class SequenceFix{
         List<List<String>> rels_next = new ArrayList<List<String>>();
         NewickTreeNode parent2 = new NewickTreeNode();
         try{
-          rels_next = rels.get(level+1); 
+          rels_next = rels.get(level+1);
           parent2 = strain_node.getParent();
         }catch(IndexOutOfBoundsException e){
-          HashMap<NewickTreeNode,List<List<String>>> rels_next_map = 
+          HashMap<NewickTreeNode,List<List<String>>> rels_next_map =
             get_parents_parent_relatives(strain_node);
           Iterator it2 = rels_next_map.entrySet().iterator();
           while (it2.hasNext()){
             Map.Entry pairs = (Map.Entry)it2.next();
             parent2 = (NewickTreeNode)pairs.getKey();
-            rels_next = (List<List<String>>)pairs.getValue(); 
+            rels_next = (List<List<String>>)pairs.getValue();
             rels.add(rels_next);
         }
       }
@@ -388,10 +403,10 @@ public class SequenceFix{
       char_rels.put(choice,rels);
       return char_rels;
   }
-  
+
   /** Returns a HashMap<String,String> of strain name:sequence with the sequences
    *  cleaned up (gaps removed/replaced by comparing with the closest relative).
-   *  
+   *
    *  @param newick_file Name of the newick file (corrosponding to the fasta file).
    *  @param fasta_map HashMap<String,String> containing the strain name:sequence
    *  @return HashMap<String,String> containing the strain name:new sequence
@@ -399,8 +414,8 @@ public class SequenceFix{
   // CHANGE TO HASHMAP<HASHMAP<STRING,STRING>,HASHMAP<STRING,STRING>> TO RETURN
   // fasta_map and logs
   @SuppressWarnings("unchecked")
-  private static HashMap<HashMap<String,String>,HashMap<String,String>> replacer(String newick_file, 
-                                                 HashMap<String,String> fasta_map, 
+  private static HashMap<HashMap<String,String>,HashMap<String,String>> replacer(String newick_file,
+                                                 HashMap<String,String> fasta_map,
                                                  double cutoff) throws IOException, InvalidNewickException{
     //create tree
     String stree = new Scanner(new File(newick_file)).useDelimiter("\\z").next();
@@ -414,7 +429,7 @@ public class SequenceFix{
     int base_replacements = 0;
     String closest = "";
     System.out.println(orig_fasta_map.keySet());
-    
+
     for(String strain : fasta_map.keySet()){
       int index = 0;
       List<List<List<String>>> rels = new ArrayList<List<List<String>>>();
@@ -430,8 +445,8 @@ public class SequenceFix{
               strain_node = new NewickTreeNode();
               strain_node = find_node_with_taxon_label(strain,tree);
             }
-            
-            HashMap<String,List<List<List<String>>>> close_rel = 
+
+            HashMap<String,List<List<List<String>>>> close_rel =
               weighted_seq_choose(orig_fasta_map,strain_node,rels,index,0);
             Iterator it = close_rel.entrySet().iterator();
             while (it.hasNext()){
@@ -461,10 +476,10 @@ public class SequenceFix{
             orig_fasta_map = remove_column(orig_fasta_map,index);
             c_removals = c_removals + 1;
           }
-        } 
+        }
         else if((Arrays.asList(nuc_list).contains(nuc)) == false){
           strain_node = find_node_with_taxon_label(strain,tree);
-          HashMap<String,List<List<List<String>>>> close_rel = 
+          HashMap<String,List<List<List<String>>>> close_rel =
               weighted_seq_choose(orig_fasta_map,strain_node,rels,index,0);
           Iterator it0 = close_rel.entrySet().iterator();
           while (it0.hasNext()){
@@ -487,8 +502,8 @@ public class SequenceFix{
             fasta_map.put(strain,new_value);
             base_replacements = base_replacements + 1;
           }
-        
-        
+
+
           index = index + 1;
         }
         else {
@@ -497,7 +512,7 @@ public class SequenceFix{
         s_num = s_num + 1;
       }
     }
-    HashMap<HashMap<String,String>,HashMap<String,String>> map_log = 
+    HashMap<HashMap<String,String>,HashMap<String,String>> map_log =
       new HashMap<HashMap<String,String>,HashMap<String,String>>();
     log.put("Strins analyzed",Arrays.toString(fasta_map.keySet().toArray()));
     log.put("Cutoff percentage",Double.toString(cutoff));
@@ -508,10 +523,10 @@ public class SequenceFix{
     map_log.put(fasta_map,log);
     return map_log;
   }
-  
+
   /** Updates the given fasta object with the new sequences.
-   *  
-   *  @param fasta Fasta object 
+   *
+   *  @param fasta Fasta object
    *  @param fasta_map HashMap<String,String> containing the strain:new sequence
    */
   private static void update_fasta(Fasta fasta, HashMap<String,String> fasta_map){
