@@ -82,6 +82,7 @@ clean:
 	rm -Rf $(BUILD_DIR)
 	rm -f Doxyfile.log
 	rm -Rf $(DOCS_DIR)
+	rm -rf temp
 	$(ANT) clean
 
 # Install the binary files to the appropriate location.
@@ -89,10 +90,30 @@ install: $(BUILD_DIR) $(BINARY_FILES) $(BIN_DIR)
 	cp -f $(BINARY_FILES) $(BIN_DIR)
 	$(ANT) install
 
+	gfortran ./src/fortran/Methods_es1.f90 -c  -o Methods_es1.o
+	gfortran ./src/fortran/NelderMead_es1.f90 -c  -o NelderMead_es1.o
+	gfortran ./src/fortran/demarcationsCI_es1.f90 Methods_es1.o NelderMead_es1.o  -o demarcationsCI.app
+	rm -f *.mod
+	rm -f *.o
+	cp -f demarcationsCI.app ./bin
+	rm -f demarcationsCI.app
+	mkdir temp
+
+
 # Remove the binary files from their installed location.
 uninstall:
-	rm -f $(INSTALL_FILES)
+	rm -rf bin
+	rm -rf temp
 	$(ANT) uninstall
+
+restart:
+	rm -rf temp
+	mkdir temp
+
+run:
+	rm -rf temp
+	mkdir temp
+	java -jar ./bin/EcoSim.jar
 
 # Build the documentation.
 docs:
@@ -116,4 +137,5 @@ $(BUILD_DIR):
 # Make sure the bin directory is there.
 $(BIN_DIR):
 	$(MKDIR_P) $(BIN_DIR)
+
 
