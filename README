@@ -103,3 +103,9 @@ To clean the directory of all build files, issue the command:
   make clean
 
 
+CHANGES
+====================================
+-> combined es1 and es2 demarcation 
+-> fixed sigma value NaN in Hillclimb.f90
+-> changed bin level, added .700 binlevel. And the switch value is 5
+-> sigma and omega fixed during demarcation, added 0.70 and 0.75 binlevel, modified output file, now output gui log
