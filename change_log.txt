@@ -1,8 +1,0 @@
-2.13b --> debug version which prints out all demarcation inputs
-2.13c --> based on 2.13b, fixed sigma value NaN in Hillclimb.f90
-2.13d --> under developemnet, trying to add merging single ecotypes
-2.13e --> changed bin level, added .700 binlevel. And the switch value is 5
-2.14 ---> NEW VERSION, with sigma and omega fixed during demarcation, added 0.70 and 0.75 binlevel, modified output file, now output gui log
-2.14T ---> version to test bruteforce/hillclimbing npop value, based on 2.14  ---> weird issue: the output is empty if not printing demarcation output
-1.0T ---> verision to test bruteforce/hillclimbing npop value.
-2.14F ---> Based on 2.14, only run demarcation with given omega and sigma (From Sarah's result)

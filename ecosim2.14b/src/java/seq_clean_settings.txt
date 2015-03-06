@@ -1,5 +1,0 @@
-MLtree from23 Oct with outgroup (fromAligned 31Aug).nwk
-23 Oct with outgroup (fromAligned 31Aug).fas
-.1
-cleaned_fasta.fas
-clean_seq_log.txt

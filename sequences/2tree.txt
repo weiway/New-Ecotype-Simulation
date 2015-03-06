@@ -1,1 +1,0 @@
-(habitatA_strain0_ecotype0:0.0,habitatA_strain1_ecotype1:0.0,habitatA_strain2_ecotype1:0.0);
