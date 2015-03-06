@@ -1,4 +1,4 @@
-Ecotype Simulation README
+New Ecotype Simulation README
 
 
 INSTALLATION
@@ -25,20 +25,6 @@ A Java 7 Runtime Environment (JRE) is required to execute this program.  You
 can download it here:
 
   http://www.oracle.com/technetwork/java/javase/downloads/index.html
-
-NJplot
-------------------------------
-The NJplot executable must be accessible via your system's PATH, or in the
-EcoSim directory.  You can download it here:
-
-  http://pbil.univ-lyon1.fr/software/njplot.html
-
-PHYLIP
-------------------------------
-The PHYLIP executable must be in your system's PATH, or in the EcoSim
-directory.  You can download it here:
-
-  http://www.phylip.com/
 
 
 REQUIREMENTS - COMPILATION
@@ -102,6 +88,14 @@ To clean the directory of all build files, issue the command:
 
   make clean
 
+To uninstall
+  make uninstall
+
+
+TO RUN
+====================================
+
+  make run
 
 CHANGES
 ====================================
